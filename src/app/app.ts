@@ -4,8 +4,8 @@ import { Component } from '@angular/core';
    selector: 'app',
    template: `
      <div>
-       yo world!
+       <main-container></main-container>
      </div>
    `
 })
-export default class App {};
+export class App {};
