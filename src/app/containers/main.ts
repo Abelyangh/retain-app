@@ -3,9 +3,10 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'main-container',
   template: ` 
-    <div>
+    <div class = "main-container">
+       <app-bar></app-bar>
        <main class ="main">
-         <notes-container></notes-container>
+         <router-outlet></router-outlet>
        <main>
     <div>
   `

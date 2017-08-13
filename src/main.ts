@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { App, providers} from './app';
-import { Main, NotesContainer } from './app/containers';
+import { App, providers, routers } from './app';
+import { Main, NotesContainer, About} from './app/containers';
 import { AppBar, NoteCard, NoteCreator} from './app/ui';
 
 @NgModule({
@@ -15,10 +15,11 @@ import { AppBar, NoteCard, NoteCreator} from './app/ui';
      AppBar,
      NoteCard,
      NotesContainer,
+     About,
      NoteCreator,
  ],
  providers,
- imports: [BrowserModule, FormsModule, HttpModule],
+ imports: [BrowserModule, FormsModule, HttpModule, routers],
  bootstrap: [App]
 })
 export class AppMobule{}
