@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NoteService } from './../services';
 
 @Component({
    selector: 'notes-container',
@@ -20,8 +21,8 @@ import { Component } from '@angular/core';
           <note-card
             class="col-xs-4"
             [note]="note"
-            *ngFor="let note of notes; let i= index" 
-            (checkEvent)="onNoteChecked(i)"
+            *ngFor="let note of notes;" 
+            (checkEvent)="onNoteChecked($event)"
           >
           </note-card>
         </div>
@@ -30,26 +31,24 @@ import { Component } from '@angular/core';
    `
 })
 export class NotesContainer {
-    notes= [{ 
-        'title': 'question1',
-        'value': 'can\'t resolve the relative path',
-        'color': 'lightblue'
-    },
-    { 
-        'title': 'question2',
-        'value': 'can\'t resolve the relative path',
-        'color': 'red'
-    },
-    { 
-        'title': 'question3',
-        'value': 'can\'t resolve the relative path',
-        'color': 'green'
-    }];
-    onNoteChecked(i: number) {
-      this.notes.splice(i, 1);
+
+    notes= [];
+
+    constructor(private noteService: NoteService) {
+      this.noteService.getNotes()
+      .subscribe(res => { this.notes = res.data; console.log(res.data); });
+    }
+    onNoteChecked(note) {
+      this.noteService.deleteNote(note)
+      .subscribe(note => {
+         const i = this.notes.findIndex(localNote => localNote._id === note._id);
+         this.notes.splice(i, 1);
+      });
     }
 
     onCreateNode(note) {
-      this.notes.push(note);
+      note['color'] = 'white';
+      this.noteService.createNote(note)
+      .subscribe(note => this.notes.push(note));
     }
 }; 
