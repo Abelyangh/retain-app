@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { NoteService } from './../services';
+import { Store } from '../store';
+
+import 'rxjs/Rx';
 
 @Component({
    selector: 'notes-container',
@@ -34,21 +37,25 @@ export class NotesContainer {
 
     notes= [];
 
-    constructor(private noteService: NoteService) {
+    constructor(
+      private noteService: NoteService,
+      private store: Store
+      ) {
       this.noteService.getNotes()
-      .subscribe(res => { this.notes = res.data; console.log(res.data); });
+      .subscribe();
+
+      this.store.changes.pluck('notes')
+      .subscribe((notes: any) => this.notes = notes);
     }
+
     onNoteChecked(note) {
       this.noteService.deleteNote(note)
-      .subscribe(note => {
-         const i = this.notes.findIndex(localNote => localNote._id === note._id);
-         this.notes.splice(i, 1);
-      });
+      .subscribe();
     }
 
     onCreateNode(note) {
       note['color'] = 'white';
       this.noteService.createNote(note)
-      .subscribe(note => this.notes.push(note));
+      .subscribe();
     }
 }; 
